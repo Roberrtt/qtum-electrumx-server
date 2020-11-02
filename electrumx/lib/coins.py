@@ -366,5 +366,5 @@ class QtumRegtest(QtumTestnet, Coin):
     NAME = "Qtum"
     NET = "regtest"
     PEERS = []
-    TX_COUNT = 0
-    TX_COUNT_HEIGHT = 1
+    TX_COUNT = 1
+    TX_COUNT_HEIGHT = 0
