@@ -361,7 +361,7 @@ class QtumTestnet(Qtum):
     RPC_PORT = 13889
     
     
-class QtumRegtest(QtumTestnet):
+class QtumRegtest(QtumTestnet, Coin):
     NET = "regtest"
     GENESIS_HASH = '665ed5b402ac0b44efc37d8926332994363e8a7278b7ee9a58fb972efadae943'
     PEERS = []
