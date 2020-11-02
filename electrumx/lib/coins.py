@@ -360,7 +360,8 @@ class QtumTestnet(Qtum):
     PEER_DEFAULT_PORTS = {'t': '51001', 's': '51002'}
     RPC_PORT = 13889
     
- class QtumRegtest(QtumTestnet);
+    
+class QtumRegtest(QtumTestnet);
     NET = "regtest"
     GENESIS_HASH = '0f74d51ed8e85e37a8add8deaacd734edfd730345ff07d09587ee3e9865917ee'
     PEERS = []
