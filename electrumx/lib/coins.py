@@ -290,6 +290,7 @@ class Qtum(Coin):
     TX_PER_BLOCK = 1800
     PEER_DEFAULT_PORTS = {'t': '50001', 's': '50002'}
     PEERS = []
+    SESSIONCLS = ElectrumX
     DAEMON = daemon.QtumDaemon
     DESERIALIZER = lib_tx.DeserializerQtum
     STATIC_BLOCK_HEADERS = False
@@ -366,3 +367,5 @@ class QtumRegtest(QtumTestnet, Coin):
     NET = "regtest"
     GENESIS_HASH = '665ed5b402ac0b44efc37d8926332994363e8a7278b7ee9a58fb972efadae943'
     PEERS = []
+    TX_COUNT = 0
+    TX_COUNT_HEIGHT = 1
