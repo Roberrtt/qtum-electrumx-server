@@ -369,3 +369,4 @@ class QtumRegtest(QtumTestnet, Coin):
     PEERS = []
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
+    TX_PER_BLOCK = 1
