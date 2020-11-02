@@ -367,3 +367,4 @@ class QtumRegtest(QtumTestnet, Coin):
     PEERS = []
     TX_COUNT = 0
     TX_COUNT_HEIGHT = 1
+    DAEMON = 0
