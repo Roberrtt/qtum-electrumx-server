@@ -365,5 +365,5 @@ class QtumTestnet(Qtum):
 class QtumRegtest(QtumTestnet):
     NAME = "Qtumreg"
     NET = "regtest"
-    GENESIS_HASH = '665ed5b402ac0b44efc37d8926332994363e8a7278b7ee9a58fb972efadae943'
+    GENESIS_HASH = '0f74d51ed8e85e37a8add8deaacd734edfd730345ff07d09587ee3e9865917ee'
     PEERS = []
