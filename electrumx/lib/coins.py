@@ -368,6 +368,5 @@ class QtumRegtest(QtumTestnet, Coin):
     GENESIS_HASH = ('665ed5b402ac0b44efc37d8926332994'
                    '363e8a7278b7ee9a58fb972efadae943')
     PEERS = []
-    TX_COUNT = 1
+    TX_COUNT = 0
     TX_COUNT_HEIGHT = 1
-    TX_PER_BLOCK = 1
