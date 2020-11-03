@@ -39,16 +39,17 @@ from functools import partial
 
 import electrumx.lib.util as util
 from electrumx.lib.hash import Base58, hash160, double_sha256, hash_to_hex_str
-from electrumx.lib.hash import HASHX_LEN, HASHY_LEN, hex_str_to_hash
-from electrumx.lib.script import (_match_ops, Script, ScriptError,
-                                  ScriptPubKey, OpCodes)
+from electrumx.lib.hash import HASHX_LEN, hex_str_to_hash
+from electrumx.lib.script import ScriptPubKey, OpCodes
 import electrumx.lib.tx as lib_tx
+import electrumx.lib.tx_dash as lib_tx_dash
 import electrumx.server.block_processor as block_proc
 import electrumx.server.daemon as daemon
 from electrumx.server.session import ElectrumX
 
 
 Block = namedtuple("Block", "raw header transactions")
+OP_RETURN = OpCodes.OP_RETURN
 
 
 class CoinError(Exception):
@@ -92,7 +93,6 @@ class Coin(object):
     @classmethod
     def lookup_coin_class(cls, name, net):
         '''Return a coin class given name and network.
-
         Raise an exception if unrecognised.'''
         req_attrs = ['TX_COUNT', 'TX_COUNT_HEIGHT', 'TX_PER_BLOCK']
         for coin in util.subclasses(Coin):
@@ -122,15 +122,8 @@ class Coin(object):
         return url + '/'
 
     @classmethod
-    def max_fetch_blocks(cls, height):
-        if height < 130000:
-            return 1000
-        return 100
-
-    @classmethod
     def genesis_block(cls, block):
         '''Check the Genesis block is the right one for this coin.
-
         Return the block less its unspendable coinbase.
         '''
         header = cls.block_header(block, 0)
@@ -143,7 +136,11 @@ class Coin(object):
 
     @classmethod
     def hashX_from_script(cls, script):
-        '''Returns a hashX from a script.'''
+        '''Returns a hashX from a script, or None if the script is provably
+        unspendable so the output can be dropped.
+        '''
+        if script and script[0] == OP_RETURN:
+            return None
         return sha256(script).digest()[:HASHX_LEN]
 
     @staticmethod
@@ -190,7 +187,6 @@ class Coin(object):
     @classmethod
     def pay_to_address_script(cls, address):
         '''Return a pubkey script that pays to a pubkey hash.
-
         Pass the address (either P2PKH or P2SH) in base58 form.
         '''
         raw = cls.DECODE_CHECK(address)
@@ -229,7 +225,6 @@ class Coin(object):
     @classmethod
     def static_header_offset(cls, height):
         '''Given a header height return its offset in the headers file.
-
         If header sizes change at some point, this is the only code
         that needs updating.'''
         assert cls.STATIC_BLOCK_HEADERS
@@ -257,7 +252,6 @@ class Coin(object):
     def decimal_value(cls, value):
         '''Return the number of standard coin units as a Decimal given a
         quantity of smallest units.
-
         For example 1 BTC is returned for 100 million satoshis.
         '''
         return Decimal(value) / cls.VALUE_PER_COIN
@@ -271,7 +265,7 @@ class Coin(object):
         m = sha256()
         m.update(hash160.encode())
         m.update(contract_addr.encode())
-        return m.digest()[:HASHY_LEN]
+        return m.digest()
 
 
 class Qtum(Coin):
@@ -289,7 +283,6 @@ class Qtum(Coin):
     TX_PER_BLOCK = 1800
     PEER_DEFAULT_PORTS = {'t': '50001', 's': '50002'}
     PEERS = []
-    SESSIONCLS = ElectrumX
     DAEMON = daemon.QtumDaemon
     DESERIALIZER = lib_tx.DeserializerQtum
     STATIC_BLOCK_HEADERS = False
@@ -297,7 +290,6 @@ class Qtum(Coin):
     POW_BLOCK_COUNT = 5000
     RPC_PORT = 3889
     CHUNK_SIZE = 1024
-    DEFAULT_MAX_SEND = 9000000
 
     @classmethod
     def block_header(cls, block, height):
