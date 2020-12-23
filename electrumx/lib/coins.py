@@ -367,3 +367,9 @@ class QtumRegtest(Qtum,Coin):
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
     RPC_PORT = 13889
+    
+    @classmethod
+    def max_fetch_blocks(cls, height):
+        if height <= 10:
+            return 100
+        return 3
