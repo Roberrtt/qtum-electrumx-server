@@ -358,6 +358,6 @@ class QtumRegtest(Qtum):
     NET = "regtest"
     GENESIS_HASH = '0f74d51ed8e85e37a8add8deaacd734edfd730345ff07d09587ee3e9865917ee'
     PEERS = []
-    TX_COUNT = 1
-    TX_COUNT_HEIGHT = 1
+    TX_COUNT = 0
+    TX_COUNT_HEIGHT = 0
     RPC_PORT = 13889
