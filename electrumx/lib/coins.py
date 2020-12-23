@@ -121,7 +121,7 @@ class Coin(object):
             url = 'http://' + url
         return url + '/'
     
-        @classmethod
+    @classmethod
     def max_fetch_blocks(cls, height):
         if height < 130000:
             return 1000
