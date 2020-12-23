@@ -120,6 +120,12 @@ class Coin(object):
         if not url.startswith('http://') and not url.startswith('https://'):
             url = 'http://' + url
         return url + '/'
+    
+        @classmethod
+    def max_fetch_blocks(cls, height):
+        if height < 130000:
+            return 1000
+        return 100
 
     @classmethod
     def genesis_block(cls, block):
