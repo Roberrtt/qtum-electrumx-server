@@ -365,4 +365,3 @@ class QtumRegtest(QtumTestnet):
     PEERS = []
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
-    RPC_PORT = 13889
