@@ -365,3 +365,4 @@ class QtumRegtest(QtumTestnet):
     PEERS = []
     TX_COUNT = 1
     TX_COUNT_HEIGHT = 1
+    GENESIS_ACTIVATION = 10_000
